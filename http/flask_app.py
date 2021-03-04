@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask import url_for
 
 app = Flask(__name__)
@@ -382,6 +382,13 @@ def carousel():
                     </div>
                   </body>
                 </html>'''
+
+
+@app.route('/index_test')
+def index_test():
+    user = "Ученик Яндекс.Лицея"
+    return render_template('static\sites\index.html', title='Домашняя страница',
+                           username=user)
 
 
 if __name__ == '__main__':
