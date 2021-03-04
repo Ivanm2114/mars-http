@@ -4,21 +4,14 @@ from flask import url_for
 app = Flask(__name__)
 
 
+@app.route('/')
+def f():
+    return 'Миссия Колонизация Марса'
+
+
 @app.route('/index')
 def index():
-    user = "Ученик Яндекс.Лицея"
-    return render_template('index.html', title='Домашняя страница',
-                           username=user)
-
-
-# @app.route('/')
-# def f():
-#     return 'Миссия Колонизация Марса'
-#
-
-# @app.route('/index')
-# def index():
-#     return "И на Марсе будут яблони цвести!"
+    return "И на Марсе будут яблони цвести!"
 
 
 @app.route('/promotion')
@@ -389,6 +382,11 @@ def carousel():
                     </div>
                   </body>
                 </html>'''
+
+
+@app.route('/index/<title>')
+def preparement(title):
+    return render_template('base.html', title=title)
 
 
 if __name__ == '__main__':
