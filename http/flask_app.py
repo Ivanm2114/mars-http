@@ -102,13 +102,7 @@ def form_sample():
     if request.method == 'GET':
         return render_template('astronaut_selection.html')
     elif request.method == 'POST':
-        print(request.form['email'])
-        print(request.form['password'])
-        print(request.form['class'])
-        print(request.form['file'])
-        print(request.form['about'])
-        print(request.form['accept'])
-        print(request.form['sex'])
+        print(request.form)
         return "Форма отправлена"
 
 

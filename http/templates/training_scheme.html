@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
-<h1>Миссия колонизация Марса</h1>
-<h4>И на Марсе будут яблони цвеести</h4>
+{% extends "base.html" %}
+
+{% block content %}
+
+
 {% if profession == "врач" or profession == "ученый" %}
     <img src="/static/data/doctor.jpg" alt="здесь должна была быть картинка, но не нашлась"/>
 {% else %}
     <img src="/static/data/engeneer.jpg"/>
 {% endif %}
-</body>
-</html>
+{% endblock %}

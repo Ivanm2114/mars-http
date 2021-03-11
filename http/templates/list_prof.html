@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "base.html" %}
+
+{% block content %}
     <style>
         li {
             font-size: 20pt;
             }
 </style>
-</head>
-<body>
-    <h1>Миссия колонизация Марса</h1>
-    <h4>И на Марсе будут яблони цвеести</h4>
+
     {% if mode == 'ul'%}
     <ul>
         {% for item in profs %}
@@ -26,5 +22,5 @@
     {% else %}
     <h2>Введите правильный режим</h2>
     {% endif %}
-</body>
-</html>
+
+{% endblock %}
