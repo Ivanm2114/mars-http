@@ -394,5 +394,11 @@ def training_image(profession):
     return render_template('training_scheme.html', profession=profession.lower())
 
 
+@app.route('/list_prof/<mode>')
+def profs_list(mode):
+    profs = ['Пилот', 'Криптобиолог', 'Грузчик', 'Врач']
+    return render_template('list_prof.html', profs=profs, mode=mode)
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
