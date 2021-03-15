@@ -2,11 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <title>{{ title }}</title>
 </head>
+<header class="mt-1 mb-9" role="banner">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-9 bg-light text-dark">
+                <h1>Миссия колонизация Марса</h1>
+                <h4>И на Марсе будут яблони цвеести</h4>
+
+            </div>
+        </div>
+    </div>
+</header>
 <body>
-<h1>Миссия колонизация Марса</h1>
-<h4>И на Марсе будут яблони цвеести</h4>
 
 <main role="main" class="container">
     {% block content %}{% endblock %}
