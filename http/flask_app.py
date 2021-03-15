@@ -325,7 +325,7 @@ def login():
 
 @app.route('/success')
 def success():
-    return render_template('list_prof.html')
+    return render_template('success.html')
 
 
 if __name__ == '__main__':
