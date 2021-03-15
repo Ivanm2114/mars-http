@@ -115,8 +115,41 @@ def form_sample():
     if request.method == 'GET':
         return render_template('astronaut_selection.html')
     elif request.method == 'POST':
-        print(request.form)
-        return "Форма отправлена"
+        with open('data.txt', encoding='utf-8', mode='w') as file:
+            file.write('\n'.join([request.form['surname'],
+                                  request.form['name'],
+                                  request.form['education']]) + '\n')
+            if 'Пилот' in request.form:
+                if request.form['Пилот'] == 'on':
+                    file.write('Пилот' + ' ')
+            if 'Инженер-исследователь' in request.form:
+                if request.form['Инженер-исследователь'] == 'on':
+                    file.write('Инженер-исследователь' + ' ')
+            if "Cпециалист по радиационной защите" in request.form:
+                if request.form['Cпециалист по радиационной защите'] == 'on':
+                    file.write('Cпециалист по радиационной защите' + ' ')
+            if "Что-то другое" in request.form:
+                if request.form['Что-то другое'] == 'on':
+                    file.write('Что-то другое')
+            file.write('\n')
+            file.write('\n'.join([request.form['sex'],
+                                  request.form['about']]) + '\n')
+            if "Volonteer" in request.form:
+                file.write('True')
+            else:
+                file.write('False')
+        return redirect('/answer')
+
+
+
+@app.route('/answer')
+def answer():
+    data = []
+    with open('data.txt', encoding='utf-8', mode='r') as file:
+        for line in file.readlines():
+            line = line.replace('\n', '')
+            data.append(line)
+    return render_template('answer_form.html', data=data)
 
 
 @app.route('/choice/<planet_name>')
