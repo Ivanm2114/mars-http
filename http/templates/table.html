@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    h2{
+    text-align: center;
+    }
+
+    th {
+    text-align: center;
+    }
+
+    td {
+    text-align: center;
+    }
+
+
+
+</style>
+
+
+<h2>Оформление каюты</h2>
+{% if sex=='male' and age >= 21 %}
+    {% set color = "#87CEEB" %}
+{% elif sex=='male' and age < 21 %}
+    {% set color = "#1E90FF" %}
+{% elif sex=='female' and age < 21 %}
+    {% set color = "#FF69B4" %}
+{% elif sex=='female' and age >= 21 %}
+    {% set color = "#EE82EE" %}
+{% endif %}
+{% if age >= 21 %}
+    {% set photo = "/static/data/marsianin_adult.png" %}
+{% else %}
+    {% set photo = "/static/data/marsianin_child.png" %}
+{% endif %}
+
+<table border="1" width="1000" cellpadding="5">
+    <tr>
+        <th>Цвет стен</th>
+        <th>Эмблема</th>
+    </tr>
+    <tr>
+        <td width="500" height="600" bgcolor={{color}}></td>
+        <td width="500" height="600"><img src={{photo}} alt="Тут эмблема"></td>
+    </tr>
+
+</table>
+
+
+{% endblock %}
