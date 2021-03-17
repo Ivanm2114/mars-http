@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-
+photos = ['paysage1.png', 'paysage2.png', 'paysage3.png']
 
 class LoginForm(FlaskForm):
     astronaut_id = StringField('ID астронавта', validators=[DataRequired()])
@@ -301,9 +301,15 @@ def sample_file_upload():
         '''
 
 
-@app.route('/carousel')
+@app.route('/carousel', methods=['POST', 'GET'])
 def carousel():
-    return render_template('carousel.html')
+    global photos
+    if request.method == 'GET':
+        return render_template('carousel.html', photos=photos, title="Пейзажи Марса")
+    elif request.method == 'POST':
+        photos.append(request.files['file'].filename)
+        return redirect('/carousel')
+
 
 
 @app.route('/index/<title>')
