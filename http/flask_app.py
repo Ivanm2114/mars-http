@@ -2,7 +2,7 @@ from flask import Flask, request, render_template
 from flask import url_for
 from flask_wtf import FlaskForm
 from werkzeug.utils import redirect
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 import json
 from random import choice
