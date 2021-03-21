@@ -4,6 +4,8 @@ from flask_wtf import FlaskForm
 from werkzeug.utils import redirect
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
+from data import db_session
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
