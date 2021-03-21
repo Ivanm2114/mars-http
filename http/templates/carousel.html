@@ -2,6 +2,17 @@
 
 {% block content %}
 
+<style type="text/css">
+   .space {
+    padding: 20px; /* Поля */
+    background: silver; /* Цвет фона */
+    border-radius: 20px;
+    margin-top: 20px;
+   }
+
+</style>
+
+
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 
     <ol class="carousel-indicators">
@@ -18,13 +29,13 @@
     <div class="carousel-inner">
         {% for el in photos %}
         {% if loop.first %}
-            <div class="carousel-item active">
-                <img src="/static/data/{{el}}" class="d-block w-100">
-            </div>
+        <div class="carousel-item active">
+            <img src="/static/data/{{el}}" class="d-block w-100">
+        </div>
         {% else %}
-            <div class="carousel-item">
-                <img src="/static/data/{{el}}" class="d-block w-100">
-            </div>
+        <div class="carousel-item">
+            <img src="/static/data/{{el}}" class="d-block w-100">
+        </div>
         {% endif %}
         {% endfor %}
     </div>
@@ -37,13 +48,14 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-<form method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="photo">Выберите файл</label>
-        <input type="file" class="form-control-file" id="photo" name="file">
+<div class="space">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="photo">Выберите файл</label>
+            <input type="file" class="form-control-file" id="photo" name="file">
 
-    </div>
-    <button type="submit" class="btn btn-primary">Отправить</button>
-</form>
-
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>
 {% endblock %}
