@@ -9,6 +9,7 @@ from data import db_session
 import json
 from random import choice
 
+db_session.global_init("db/blogs.db")
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 photos = ['paysage1.png', 'paysage2.png', 'paysage3.png']
