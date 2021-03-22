@@ -2,3 +2,4 @@
 /pyvenv.cfg
 /http/sqalchemy_test.py
 /.idea
+/http/db/blogs.db
