@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style type="text/css">
+   .space {
+    text-align: center;
+    padding: 20px; /* Поля */
+    background: silver; /* Цвет фона */
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+   }
+
+   table{
+       margin: auto;
+   }
+
+   h2 {
+       text-align: center;
+   }
+
+   .regular {
+       background-color: aliceblue;
+   }
+
+   h3 {
+       text-align: left;
+   }
+
+   .yes {
+       background-color: rgba(10, 190, 100, 0.726);
+    }
+    .no{
+        background-color: rgba(196, 16, 16, 0.753);
+    }
+    .activity {
+        width: 530px;
+    }
+    .mate {
+        width: 150px;
+    }
+
+    .dur {
+        width: 50px;
+    }
+
+    .helps {
+        width: 100px;
+    }
+    
+</style>
+<h2>Work logs</h2>
+<div class="space">
+    {% for job in jobs %}
+    <h3>Action {{loop.index}}</h3>
+    <table border="1" width="1000" cellpadding="5">
+        <tr>
+            <th>Title of activity</th>
+            <th>Team leader</th>
+            <th>Duration</th>
+            <th>List of collaborators</th>
+            <th>Is finished</th>
+        </tr>
+        <tr>
+            <td class="regular activity">{{job[0]}}</td>
+            <td class="regular mate">{{job[1]}}</td>
+            <td class="regular dur">{{job[2]}}</td>
+            <td class="regular helps">{{job[3]}}</td>
+            <td class='{% if job[4]%}
+            yes
+            {% else%}
+            no
+            {%endif%}'>
+            {%if job[4]%}
+            Is finished
+            {%else%}
+            Not finished
+            {%endif%}
+            </td>
+        </tr>
+    
+    </table>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

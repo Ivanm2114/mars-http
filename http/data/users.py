@@ -19,5 +19,6 @@ class User(SqlAlchemyBase):
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
 
+
     def __repr__(self):
         return f"<Colonist> {self.id} {self.surname} {self.name}"

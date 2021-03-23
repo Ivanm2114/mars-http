@@ -14,6 +14,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 photos = ['paysage1.png', 'paysage2.png', 'paysage3.png']
 
+
 class LoginForm(FlaskForm):
     astronaut_id = StringField('ID астронавта', validators=[DataRequired()])
     astronaut_password = PasswordField('Пароль астронавта', validators=[DataRequired()])
@@ -144,7 +145,6 @@ def form_sample():
             else:
                 file.write('False')
         return redirect('/answer')
-
 
 
 @app.route('/answer')
@@ -316,7 +316,6 @@ def carousel():
         return redirect('/carousel')
 
 
-
 @app.route('/index/<title>')
 def preparement(title):
     return render_template('base.html', title=title)
@@ -345,9 +344,11 @@ def login():
 def success():
     return render_template('success.html')
 
+
 @app.route('/distribution')
 def distribution():
     return render_template('distribution.html')
+
 
 @app.route('/table/<sex>/<age>')
 def table(sex, age):
