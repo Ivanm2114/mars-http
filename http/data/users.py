@@ -1,5 +1,6 @@
 import datetime
 import sqlalchemy
+from sqlalchemy import orm
 from .db_session import SqlAlchemyBase
 
 
@@ -18,7 +19,8 @@ class User(SqlAlchemyBase):
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
-
+    jobs = orm.relation("Jobs", back_populates='leader')
+    department = orm.relation("Department", back_populates='chief')
 
     def __repr__(self):
         return f"<Colonist> {self.id} {self.surname} {self.name}"
