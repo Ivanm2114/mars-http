@@ -1,3 +1,5 @@
+from data.users import User
+from data.jobs import Jobs
 from flask import Flask, request, render_template
 from flask import url_for
 from flask_wtf import FlaskForm
@@ -23,6 +25,18 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Register')
 
 
+@app.route('/')
+def f():
+    db_session.global_init('db/mars_explorer.db')
+    db_sess = db_session.create_session()
+    works = []
+    for job in db_sess.query(Jobs).all():
+        work = [job.job, job.leader.surname + job.leader.name, str(job.work_size) + ' hours',
+                job.collaborators, job.is_finished]
+        works.append(work)
+    return render_template('jobs.html', jobs=works)
+
+
 @app.route('/register')
 def register():
     form = RegisterForm()
@@ -33,4 +47,3 @@ if __name__ == '__main__':
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(port=5000, host='127.0.0.1')
-
