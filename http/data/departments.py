@@ -16,5 +16,3 @@ class Department(SqlAlchemyBase):
 
     chief = orm.relation('User')
 
-    def __repr__(self):
-        return f'<Job> {self.job}'
