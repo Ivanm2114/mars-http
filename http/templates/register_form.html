@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    div.form {
+background-color:silver;
+text-align: left;
+padding: 5px;
+border-radius: 10px;
+border-color: rgb(71, 71, 71);
+border: 2px solid rgb(82, 81, 81)
+    }
+
+    .btn-primary{
+        background-color: rgb(72, 81, 90);
+        border-color: rgb(72, 81, 90);;
+    }
+    p {
+        margin-top: auto;
+    }
+    div.label {
+        border: 2px solid grey;
+        background-color: white;
+        width: auto;
+        min-width: 150px;
+        border-radius: 10px;
+        text-align: center;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 2px;
+    }
+</style>
+<body>
+<div class="form">
+    {{ form.hidden_tag() }}
+    <p>
+        <div class='label'>{{form.Login.label }}</div><br>
+        {{ form.Login(class="form-control") }}<br>
+        {% for error in form.Login.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        <div class='label'>{{ form.Password.label }}</div><br>
+        {{ form.Password(class="form-control") }}<br>
+        {% for error in form.Password.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        <div class='label'>{{ form.Valid_password.label }}</div><br>
+        {{ form.Valid_password(class="form-control") }}<br>
+        {% for error in form.Valid_password.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        <div class='label'>{{ form.Surname.label }}</div><br>
+        {{ form.Surname(class="form-control") }}<br>
+        {% for error in form.Surname.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        <div class='label'>{{ form.Name.label }}</div><br>
+        {{ form.Name(class="form-control") }}<br>
+        {% for error in form.Name.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        <div class='label'>{{ form.Age.label }}</div><br>
+        {{ form.Age(class="form-control") }}<br>
+        {% for error in form.Age.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        <div class='label'>{{ form.Position.label }}</div><br>
+        {{ form.Position(class="form-control") }}<br>
+        {% for error in form.Position.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        <div class='label'>{{ form.Speciality.label }}</div><br>
+        {{ form.Speciality(class="form-control") }}<br>
+        {% for error in form.Speciality.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        <div class='label'>{{ form.Address.label }}</div><br>
+        {{ form.Address(class="form-control") }}<br>
+        {% for error in form.Address.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+
+
+
+
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+</div>
+</body>
+{% endblock %}
