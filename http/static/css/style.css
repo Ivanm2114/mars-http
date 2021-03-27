@@ -1,3 +1,85 @@
-h1 {
-   color: #d22e3a;
+.space {
+    text-align: center;
+    padding: 20px; /* Поля */
+    background: silver; /* Цвет фона */
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+   }
+table{
+       margin: auto;
+   }
+
+h2 {
+       text-align: center;
+   }
+
+.regular {
+       background-color: aliceblue;
+   }
+
+h3 {
+       text-align: left;
+   }
+
+.yes {
+       background-color: rgba(10, 190, 100, 0.404);
+    }
+.no{
+        background-color: rgba(196, 16, 16, 0.39);
+    }
+.activity {
+        width: 530px;
+    }
+.mate {
+        width: 150px;
+    }
+
+.dur {
+        width: 50px;
+    }
+
+.helps {
+        width: 100px;
+    }
+
+ div.form {
+background-color:silver;
+text-align: left;
+padding: 5px;
+border-radius: 10px;
+border-color: rgb(71, 71, 71);
+border: 2px solid rgb(82, 81, 81)
+    }
+
+.btn-primary{
+        background-color: rgb(72, 81, 90);
+        border-color: rgb(72, 81, 90);;
+    }
+p {
+        margin-top: auto;
+    }
+div.label {
+        border: 2px solid grey;
+        background-color: white;
+        width: auto;
+        min-width: 150px;
+        border-radius: 10px;
+        text-align: center;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 2px;
+    }
+
+th {
+    text-align: center;
+    }
+
+td {
+    text-align: center;
+    }
+
+h1.header{
+    color: black;
 }
