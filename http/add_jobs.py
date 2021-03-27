@@ -11,10 +11,10 @@ def main():
     db_sess = db_session.create_session()
 
     job = Jobs()
-    job.team_leader = 2
+    job.team_leader = 1
     job.job = 'Cleaning deck'
     job.work_size = 7
-    job.collaborators = 3
+    job.collaborators = '2,3'
     job.is_finished = True
 
     db_sess.add(job)

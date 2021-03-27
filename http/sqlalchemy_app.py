@@ -40,7 +40,6 @@ class LoginForm(FlaskForm):
 
 @app.route('/')
 def f():
-    db_session.global_init('db/mars_explorer.db')
     db_sess = db_session.create_session()
     works = []
     for job in db_sess.query(Jobs).all():
@@ -84,6 +83,7 @@ def login():
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
+        user.check_password(form.password.data)
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
@@ -94,6 +94,7 @@ def login():
 
 
 if __name__ == '__main__':
+    db_session.global_init('db/mars_explorer.db')
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(port=5000, host='127.0.0.1')
