@@ -1,14 +1,9 @@
-from wtforms.fields.html5 import EmailField
-
+from forms.user import RegisterForm, LoginForm
 from data.users import User
 from data.jobs import Jobs
 from flask_login import LoginManager, login_user
 from flask import Flask, request, render_template, make_response
-from flask import url_for
-from flask_wtf import FlaskForm
 from werkzeug.utils import redirect
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, BooleanField
-from wtforms.validators import DataRequired
 from data import db_session
 
 app = Flask(__name__)
@@ -16,26 +11,6 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-
-class RegisterForm(FlaskForm):
-    Login = StringField('Login / Email', validators=[DataRequired()])
-    Password = PasswordField('Password', validators=[DataRequired()])
-    Valid_password = PasswordField('Repeat password', validators=[DataRequired()])
-    Surname = StringField('Surname', validators=[DataRequired()])
-    Name = StringField('Name', validators=[DataRequired()])
-    Age = IntegerField('Age', validators=[DataRequired()])
-    Position = StringField('Position', validators=[DataRequired()])
-    Speciality = StringField('Speciality', validators=[DataRequired()])
-    Address = StringField('Address', validators=[DataRequired()])
-    submit = SubmitField('Register')
-
-
-class LoginForm(FlaskForm):
-    email = EmailField('Почта', validators=[DataRequired()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
-    remember_me = BooleanField('Запомнить меня')
-    submit = SubmitField('Войти')
 
 
 @app.route('/')
@@ -49,10 +24,34 @@ def f():
     return render_template('jobs.html', jobs=works)
 
 
-@app.route('/register')
-def register():
+@app.route('/register', methods=['GET', 'POST'])
+def reqister():
     form = RegisterForm()
-    return render_template('register_form.html', form=form, title="Registration")
+    if form.validate_on_submit():
+        if form.Password.data != form.Valid_password.data:
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message="Пароли не совпадают")
+        db_sess = db_session.create_session()
+        if db_sess.query(User).filter(User.email == form.Login.data).first():
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message="Такой пользователь уже есть")
+        user = User(
+            name=form.Name.data,
+            email=form.Login.data,
+            surname=form.Surname.data,
+            age=form.Age.data,
+            position=form.Position.data,
+            speciality=form.Speciality.data,
+            address=form.Address.data,
+
+        )
+        user.set_password(form.Password.data)
+        db_sess.add(user)
+        db_sess.commit()
+        return redirect('/login')
+    return render_template('register.html', title='Регистрация', form=form)
 
 
 @app.route("/cookie_test")
