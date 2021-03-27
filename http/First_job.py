@@ -12,8 +12,8 @@ def main():
 
     job = Jobs()
     job.team_leader = 1
-    job.job = 'deployment of residential modules 1 and 2'
-    job.work_size = 15
+    job.job = 'deployment of residential modules 2 and 4'
+    job.work_size = 75
     job.collaborators = '2, 3'
     job.is_finished = False
 
