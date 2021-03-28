@@ -3,3 +3,4 @@
 /http/sqalchemy_test.py
 /.idea
 /http/db/blogs.db
+/http/change_password.py
