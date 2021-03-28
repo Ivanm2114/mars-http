@@ -13,8 +13,28 @@
     <title>{{ title }}</title>
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
-<header style="background-color:silver; height:100px">
-    <h1 class="header">Миссия колонизация Марса</h1>
+<header style="background-color:silver; height:70px">
+    <table width="1920" height=70>
+        <col width='1667'>
+        <col width='300'>
+        <tr>
+            <td class='header_td'>
+                <h1 class="header" right='5px'>Миссия колонизация Марса</h1>
+            </td>
+            <td>
+                <nav class='login_buttons' style="height: 70px;">
+                    {% if current_user.is_authenticated %}
+                    <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
+                    {% else %}
+                    <p>
+                        <a class="btn btn-primary " style="margin-top: 15px" href="/register">Зарегистрироваться</a>
+                        <a class="btn btn-success" style="margin-top: 15px" href="/login">Войти</a>
+                    </p>
+                    {% endif %}
+                </nav>
+            </td>
+        </tr>
+    </table>
 </header>
 <body>
 <h4>И на Марсе будут яблони цвести</h4>

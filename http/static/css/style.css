@@ -83,3 +83,21 @@ td {
 h1.header{
     color: black;
 }
+
+
+nav.login_buttons{
+    right: 5px;
+    top: 5px;
+}
+.flex {
+    display: flex;
+    justify-content: center;
+  }
+
+header.container{
+    max-width: 1920px;
+}
+
+.header_td{
+    text-align: left;
+}
