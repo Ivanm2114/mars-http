@@ -1,13 +1,19 @@
-from forms.user import RegisterForm, LoginForm
-from data.users import User
-from data.jobs import Jobs
+import datetime
+
+from flask import Flask, request, render_template, make_response, session
 from flask_login import LoginManager, login_user
-from flask import Flask, request, render_template, make_response
 from werkzeug.utils import redirect
+
 from data import db_session
+from data.jobs import Jobs
+from data.users import User
+from forms.user import RegisterForm, LoginForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(
+    days=365
+)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -90,6 +96,14 @@ def login():
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('login.html', title='Авторизация', form=form)
+
+
+@app.route("/session_test")
+def session_test():
+    visits_count = session.get('visits_count', 0)
+    session['visits_count'] = visits_count + 1
+    return make_response(
+        f"Вы пришли на эту страницу {visits_count + 1} раз")
 
 
 if __name__ == '__main__':
