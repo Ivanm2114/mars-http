@@ -117,19 +117,32 @@ def session_test():
 @app.route('/addjob', methods=['GET', 'POST'])
 def add_job():
     form = CreateJob()
+    db_sess = db_session.create_session()
     if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        job = Jobs(
-            team_leader=form.team_leader.data,
-            job=form.job.data,
-            work_size=form.work_size.data,
-            collaborators=form.collaborators.data,
-            is_finished=form.is_finished.data
+        if db_sess.query(Jobs).filter(form.job.data == Jobs.job).first():
+            job = db_sess.query(Jobs).filter(form.job.data == Jobs.job).first()
+            if job.team_leader == form.team_leader.data or form.team_leader.data == 1:
+                job.job = form.job.data
+                job.work_size = form.work_size.data
+                job.collaborators = form.collaborators.data
+                job.is_finished = form.is_finished.data
+                db_sess.commit()
+                return redirect('/')
+            else:
+                return render_template('create_job.html', title='Добавление работы', form=form,
+                                       message='У пользователя нет доступа')
+        else:
+            job = Jobs(
+                team_leader=form.team_leader.data,
+                job=form.job.data,
+                work_size=form.work_size.data,
+                collaborators=form.collaborators.data,
+                is_finished=form.is_finished.data
 
-        )
-        db_sess.add(job)
-        db_sess.commit()
-        return redirect('/')
+            )
+            db_sess.add(job)
+            db_sess.commit()
+            return redirect('/')
     return render_template('create_job.html', title='Добавление работы', form=form)
 
 
