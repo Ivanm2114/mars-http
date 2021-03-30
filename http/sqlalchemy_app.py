@@ -8,7 +8,7 @@ from data import db_session
 from data.jobs import Jobs
 from data.users import User
 from forms.user import RegisterForm, LoginForm
-from forms.jobs import CreateJob
+from forms.jobs import CreateJob, DeleteJob
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -144,6 +144,24 @@ def add_job():
             db_sess.commit()
             return redirect('/')
     return render_template('create_job.html', title='Добавление работы', form=form)
+
+
+@app.route('/deletejob', methods=['GET', 'POST'])
+def delete_job():
+    form = DeleteJob()
+    db_sess = db_session.create_session()
+    if form.validate_on_submit():
+        if db_sess.query(Jobs).filter(form.job.data == Jobs.job).first():
+            job = db_sess.query(Jobs).filter(form.job.data == Jobs.job).first()
+            if job.team_leader == form.team_leader.data or form.team_leader.data == 1:
+                db_sess.delete(job)
+                db_sess.commit()
+                return redirect('/')
+            else:
+                return render_template('create_job.html', title='Добавление работы', form=form,
+                                       message='У пользователя нет доступа')
+        return render_template('delete_job.html', title='Удаление работы', form=form, message='Работа не найдена')
+    return render_template('delete_job.html', title='Удаление работы', form=form)
 
 
 if __name__ == '__main__':

@@ -9,5 +9,10 @@ class CreateJob(FlaskForm):
     work_size = IntegerField('Work size', validators=[DataRequired()])
     collaborators = StringField('Collaborators', validators=[DataRequired()])
     is_finished = BooleanField('Finished')
-
     submit = SubmitField('Добавить')
+
+
+class DeleteJob(FlaskForm):
+    team_leader = IntegerField('Team leader', validators=[DataRequired()])
+    job = StringField('Job', validators=[DataRequired()])
+    delete = SubmitField('Удалить')
