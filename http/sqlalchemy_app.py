@@ -158,7 +158,7 @@ def delete_job():
                 db_sess.commit()
                 return redirect('/')
             else:
-                return render_template('create_job.html', title='Добавление работы', form=form,
+                return render_template('delete_job.html', title='Добавление работы', form=form,
                                        message='У пользователя нет доступа')
         return render_template('delete_job.html', title='Удаление работы', form=form, message='Работа не найдена')
     return render_template('delete_job.html', title='Удаление работы', form=form)
