@@ -9,11 +9,11 @@
     {% for job in jobs %}
     <div class="actionLabel">
     <h3>Action {{loop.index}}</h3>
-    {% if current_user.is_authenticated and (current_user.id == 1 or current_user.id == job[-2])%}
-        <a href="/editjob/{{ job[-1]}}" class="btn btn-warning">
+    {% if current_user.is_authenticated and (current_user.id == 1 or current_user.id == job.team_leader)%}
+        <a href="/editjob/{{ job.id}}" class="btn btn-warning">
             Изменить
         </a>
-        <a href="/deletejob/{{ job[-1] }}" class="btn btn-danger" style="margin-left: 5px">
+        <a href="/deletejob/{{ job.id }}" class="btn btn-danger" style="margin-left: 5px">
             Удалить
         </a>
         {% endif %}
@@ -27,16 +27,16 @@
             <th>Is finished</th>
         </tr>
         <tr>
-            <td class="regular activity">{{job[0]}}</td>
-            <td class="regular mate">{{job[1]}}</td>
-            <td class="regular dur">{{job[2]}}</td>
-            <td class="regular helps">{{job[3]}}</td>
-            <td class='{% if job[4]%}
+            <td class="regular activity">{{job.job}}</td>
+            <td class="regular mate">{{job.leader.name}} {{job.leader.surname}}</td>
+            <td class="regular dur">{{job.work_size}} hours</td>
+            <td class="regular helps">{{job.collaborators}}</td>
+            <td class='{% if job.is_finished%}
             yes
             {% else%}
             no
             {%endif%}'>
-            {%if job[4]%}
+            {%if job.is_finished%}
             Is finished
             {%else%}
             Not finished

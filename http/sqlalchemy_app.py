@@ -24,13 +24,7 @@ login_manager.init_app(app)
 @app.route('/')
 def f():
     db_sess = db_session.create_session()
-    works = []
-    for job in db_sess.query(Jobs).all():
-        work = [job.job, job.leader.surname + ' ' + job.leader.name, str(job.work_size) + ' hours',
-                job.collaborators, job.is_finished, job.team_leader,job.id]
-        print(current_user.is_authenticated and (current_user.id == 1 or current_user.id == job.team_leader))
-        works.append(work)
-    return render_template('jobs.html', jobs=works)
+    return render_template('jobs.html', jobs=db_sess.query(Jobs).all())
 
 
 @app.route('/register', methods=['GET', 'POST'])
