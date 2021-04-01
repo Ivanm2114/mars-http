@@ -8,10 +8,10 @@ def main(db_name):
     db_session.global_init(db_name)
     db_sess = db_session.create_session()
 
-    user = db_sess.query(User).filter(User.address.like('%1'))
-    for x in user:
-        print(x)
+    user = db_sess.query(User).filter(User.id == 1).first()
+    user.set_password('1234')
+    db_sess.commit()
 
 
 if __name__ == '__main__':
-    main(input())
+    main('db/mars_explorer.db')

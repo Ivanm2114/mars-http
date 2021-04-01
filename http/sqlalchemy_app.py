@@ -1,14 +1,15 @@
 import datetime
 
 from flask import Flask, request, render_template, make_response, session
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 
 from data import db_session
 from data.jobs import Jobs
 from data.users import User
 from forms.user import RegisterForm, LoginForm
-from forms.jobs import CreateJob, DeleteJob
+from forms.jobs import CreateJob, EditJob
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -89,10 +90,11 @@ def login():
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
-        user.check_password(form.password.data)
-        if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
-            return redirect("/")
+        if user:
+            user.check_password(form.password.data)
+            if user and user.check_password(form.password.data):
+                login_user(user, remember=form.remember_me.data)
+                return redirect("/")
         return render_template('login.html',
                                message="Неправильный логин или пароль",
                                form=form)
@@ -119,9 +121,38 @@ def add_job():
     form = CreateJob()
     db_sess = db_session.create_session()
     if form.validate_on_submit():
-        if db_sess.query(Jobs).filter(form.job.data == Jobs.job).first():
-            job = db_sess.query(Jobs).filter(form.job.data == Jobs.job).first()
-            if job.team_leader == form.team_leader.data or form.team_leader.data == 1:
+        job = Jobs(
+            team_leader=form.team_leader.data,
+            job=form.job.data,
+            work_size=form.work_size.data,
+            collaborators=form.collaborators.data,
+            is_finished=form.is_finished.data
+
+        )
+        db_sess.add(job)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('create_job.html', title='Добавление работы', form=form)
+
+
+@app.route('/deletejob/<int:id>', methods=['GET', 'POST'])
+def delete_job(id):
+    db_sess = db_session.create_session()
+    if db_sess.query(Jobs).filter(id == Jobs.id).first():
+        job = db_sess.query(Jobs).filter(id == Jobs.id).first()
+        db_sess.delete(job)
+        db_sess.commit()
+        return redirect('/')
+
+
+@app.route('/editjob/<int:id>', methods=['GET', 'POST'])
+def edit_job(id):
+    form = EditJob()
+    db_sess = db_session.create_session()
+    if db_sess.query(Jobs).filter(id == Jobs.id).first():
+        job = db_sess.query(Jobs).filter(id == Jobs.id).first()
+        if form.validate_on_submit():
+            if current_user.id == 1 or current_user.id == job.team_leader:
                 job.job = form.job.data
                 job.work_size = form.work_size.data
                 job.collaborators = form.collaborators.data
@@ -129,39 +160,16 @@ def add_job():
                 db_sess.commit()
                 return redirect('/')
             else:
-                return render_template('create_job.html', title='Добавление работы', form=form,
+                return render_template('edit_job.html', title='Изменение', form=form,
                                        message='У пользователя нет доступа')
-        else:
-            job = Jobs(
-                team_leader=form.team_leader.data,
-                job=form.job.data,
-                work_size=form.work_size.data,
-                collaborators=form.collaborators.data,
-                is_finished=form.is_finished.data
 
-            )
-            db_sess.add(job)
-            db_sess.commit()
-            return redirect('/')
-    return render_template('create_job.html', title='Добавление работы', form=form)
-
-
-@app.route('/deletejob', methods=['GET', 'POST'])
-def delete_job():
-    form = DeleteJob()
-    db_sess = db_session.create_session()
-    if form.validate_on_submit():
-        if db_sess.query(Jobs).filter(form.job.data == Jobs.job).first():
-            job = db_sess.query(Jobs).filter(form.job.data == Jobs.job).first()
-            if job.team_leader == form.team_leader.data or form.team_leader.data == 1:
-                db_sess.delete(job)
-                db_sess.commit()
-                return redirect('/')
-            else:
-                return render_template('delete_job.html', title='Добавление работы', form=form,
-                                       message='У пользователя нет доступа')
-        return render_template('delete_job.html', title='Удаление работы', form=form, message='Работа не найдена')
-    return render_template('delete_job.html', title='Удаление работы', form=form)
+        form.job.data = job.job
+        form.work_size.data = job.work_size
+        form.collaborators.data = job.collaborators
+        form.is_finished.data = job.is_finished
+        return render_template('edit_job.html', title='Изменение', form=form)
+    else:
+        abort(404)
 
 
 if __name__ == '__main__':
