@@ -3,9 +3,22 @@
 {% block content %}
 <h2>Work logs</h2>
 <div class="space">
+    <a href="/addjob" class="btn btn-success" style="display: table-cell;">
+        Добавить
+    </a>
     {% for job in jobs %}
+    <div class="actionLabel">
     <h3>Action {{loop.index}}</h3>
-    <table border="1" width="1000" cellpadding="5">
+    {% if current_user.is_authenticated and (current_user.id == 1 or current_user.id == job[-2])%}
+        <a href="/editjob/{{ job[-1]}}" class="btn btn-warning">
+            Изменить
+        </a>
+        <a href="/deletejob/{{ job[-1] }}" class="btn btn-danger" style="margin-left: 5px">
+            Удалить
+        </a>
+        {% endif %}
+    </div>
+    <table border="1" width="1000" cellpadding="5" style="margin-bottom: 10px; margin-top: 5px;">
         <tr>
             <th>Title of activity</th>
             <th>Team leader</th>
@@ -30,7 +43,6 @@
             {%endif%}
             </td>
         </tr>
-    
     </table>
     {% endfor %}
 </div>

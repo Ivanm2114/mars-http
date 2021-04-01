@@ -101,3 +101,26 @@ header.container{
 .header_td{
     text-align: left;
 }
+
+a.btn-warning {
+    display: table-cell;
+    padding: 10px;
+}
+a {
+    text-decoration: none;
+}
+
+a.btn-danger {
+    display: table-cell;
+}
+
+div.actionLabel>a, div.actionLabel>h3{
+    float: left;
+    margin-right: 5px;
+}
+div.actionLabel>a{
+    padding-top: 5px;
+    height:40px;
+    text-align: center;
+    vertical-align: middle;
+}

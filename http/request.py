@@ -8,8 +8,8 @@ def main(db_name):
     db_session.global_init(db_name)
     db_sess = db_session.create_session()
 
-    user = db_sess.query(User).filter(User.id == 1).first()
-    user.set_password('1234')
+    user = db_sess.query(User).filter(User.id == 3).first()
+    user.set_password('4321')
     db_sess.commit()
 
 
