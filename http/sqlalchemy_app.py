@@ -8,8 +8,10 @@ from werkzeug.utils import redirect
 from data import db_session
 from data.jobs import Jobs
 from data.users import User
+from data.departments import Department
 from forms.user import RegisterForm, LoginForm
 from forms.jobs import CreateJob, EditJob
+from forms.departments import CreateDepartment, EditDepartment
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -165,6 +167,23 @@ def edit_job(id):
         return render_template('edit_job.html', title='Изменение', form=form)
     else:
         abort(404)
+
+
+@app.route('/adddepartment', methods=['GET', 'POST'])
+def add_dep():
+    form = CreateDepartment()
+    db_sess = db_session.create_session()
+    if form.validate_on_submit():
+        dep = Department(
+            title=form.title.data,
+            chief=form.chief.data,
+            members=form.members.data,
+            email=form.email.data
+        )
+        db_sess.add(dep)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('create_department.html', title='Добавление департамента', form=form)
 
 
 if __name__ == '__main__':

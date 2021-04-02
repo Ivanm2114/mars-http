@@ -11,6 +11,7 @@ class CreateJob(FlaskForm):
     is_finished = BooleanField('Finished')
     submit = SubmitField('Добавить')
 
+
 class EditJob(FlaskForm):
     job = StringField('Job', validators=[DataRequired()])
     work_size = IntegerField('Work size', validators=[DataRequired()])
