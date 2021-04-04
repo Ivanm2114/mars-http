@@ -5,7 +5,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 
-from data import db_session
+from data import db_session, jobs_api
 from data.jobs import Jobs
 from data.users import User
 from data.departments import Department
@@ -18,7 +18,7 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(
     days=365
 )
-
+app.register_blueprint(jobs_api.blueprint)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
