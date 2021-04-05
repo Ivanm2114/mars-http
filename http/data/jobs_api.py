@@ -45,7 +45,7 @@ def get_job(job_id):
     return jsonify({'error': 'Not found'})
 
 
-@blueprint.route('/api/news', methods=['POST'])
+@blueprint.route('/api/jobs', methods=['POST'])
 def create_job():
     if not request.json:
         return jsonify({'error': 'Empty request'})

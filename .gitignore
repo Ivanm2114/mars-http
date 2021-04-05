@@ -4,4 +4,3 @@
 /.idea
 /http/db/blogs.db
 /http/change_password.py
-/http/check.py
