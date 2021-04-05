@@ -9,7 +9,7 @@ class CreateJob(FlaskForm):
     work_size = IntegerField('Work size', validators=[DataRequired()])
     collaborators = StringField('Collaborators', validators=[DataRequired()])
     is_finished = BooleanField('Finished')
-    submit = SubmitField('Добавить')
+    submit = SubmitField('Добавить/Изменить')
 
 
 class EditJob(FlaskForm):
@@ -17,4 +17,6 @@ class EditJob(FlaskForm):
     work_size = IntegerField('Work size', validators=[DataRequired()])
     collaborators = StringField('Collaborators', validators=[DataRequired()])
     is_finished = BooleanField('Finished')
-    submit = SubmitField('Изменить')
+    submit = SubmitField('Добавить/Изменить')
+
+

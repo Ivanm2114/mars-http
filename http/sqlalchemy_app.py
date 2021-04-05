@@ -182,8 +182,51 @@ def add_dep():
         )
         db_sess.add(dep)
         db_sess.commit()
-        return redirect('/')
+        return redirect('/departments')
     return render_template('create_department.html', title='Добавление департамента', form=form)
+
+
+@app.route('/editdepartment/<int:id>', methods=['GET', 'POST'])
+def edit_dep(id):
+    form = EditDepartment()
+    db_sess = db_session.create_session()
+    if db_sess.query(Department).filter(id == Department.id).first():
+        dep = db_sess.query(Department).filter(id == Department.id).first()
+        if form.validate_on_submit():
+            print(current_user.id)
+            if current_user.id == 1 or current_user.id == dep.chief:
+                dep.title = form.title.data
+                dep.members = form.members.data
+                dep.email = form.email.data
+                print(dep)
+                db_sess.commit()
+                return redirect('/departments')
+            else:
+                return render_template('edit_department.html', title='Изменение', form=form,
+                                       message='У пользователя нет доступа')
+
+        form.title.data = dep.title
+        form.members.data = dep.members
+        form.email.data = dep.email
+        return render_template('edit_department.html', title='Изменение', form=form)
+    else:
+        abort(404)
+
+
+@app.route('/deletedepartment/<int:id>', methods=['GET', 'POST'])
+def delete_dep(id):
+    db_sess = db_session.create_session()
+    if db_sess.query(Department).filter(id == Department.id).first():
+        dep = db_sess.query(Department).filter(id == Department.id).first()
+        db_sess.delete(dep)
+        db_sess.commit()
+        return redirect('/departments')
+
+
+@app.route('/departments')
+def deps():
+    db_sess = db_session.create_session()
+    return render_template('departments.html', deps=db_sess.query(Department).all())
 
 
 if __name__ == '__main__':

@@ -9,11 +9,11 @@ class CreateDepartment(FlaskForm):
     chief = IntegerField('Chief', validators=[DataRequired()])
     members = StringField('Members', validators=[DataRequired()])
     email = EmailField('Email', validators=[DataRequired()])
-    submit = SubmitField('Добавить')
+    submit = SubmitField('Добавить/Изменить')
 
 
 class EditDepartment(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     members = StringField('Members', validators=[DataRequired()])
     email = EmailField('Email', validators=[DataRequired()])
-    submit = SubmitField('Изменить')
+    submit = SubmitField('Добавить/Изменить')
