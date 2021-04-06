@@ -12,6 +12,10 @@ def main(db_name):
     user.set_password('4321')
     db_sess.commit()
 
+    user = db_sess.query(User).filter(User.id == 1).first()
+    user.set_password('1234')
+    db_sess.commit()
+
 
 if __name__ == '__main__':
     main('db/mars_explorer.db')

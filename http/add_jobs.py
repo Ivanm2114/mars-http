@@ -11,11 +11,11 @@ def main():
     db_sess = db_session.create_session()
 
     job = Jobs()
-    job.team_leader = 1
-    job.job = 'Cleaning deck'
-    job.work_size = 7
-    job.collaborators = '2,3'
-    job.is_finished = True
+    job.team_leader = 3
+    job.job = 'Washing dishes'
+    job.work_size = 15
+    job.collaborators = '3,6'
+    job.is_finished = False
 
     db_sess.add(job)
     db_sess.commit()

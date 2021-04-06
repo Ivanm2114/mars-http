@@ -20,6 +20,9 @@ class Jobs(SqlAlchemyBase, SerializerMixin):
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean)
 
     leader = orm.relation('User')
+    categories = orm.relation("Category",
+                              secondary="association",
+                              backref="Jobs")
 
     def __repr__(self):
         return f'<Job> {self.job}'
