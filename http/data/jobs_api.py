@@ -69,7 +69,7 @@ def create_job():
 
 
 @blueprint.route('/api/jobs/<int:job_id>', methods=['DELETE'])
-def delete_news(job_id):
+def delete_jobs(job_id):
     db_sess = db_session.create_session()
     jobs = db_sess.query(Jobs).get(job_id)
     if not jobs:
@@ -77,3 +77,4 @@ def delete_news(job_id):
     db_sess.delete(jobs)
     db_sess.commit()
     return jsonify({'success': 'OK'})
+
