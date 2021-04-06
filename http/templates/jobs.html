@@ -29,6 +29,7 @@
             <th>Team leader</th>
             <th>Duration</th>
             <th>List of collaborators</th>
+            <th>Danger</th>
             <th>Is finished</th>
         </tr>
         <tr>
@@ -36,6 +37,14 @@
             <td class="regular mate">{{job.leader.name}} {{job.leader.surname}}</td>
             <td class="regular dur">{{job.work_size}} hours</td>
             <td class="regular helps">{{job.collaborators}}</td>
+            <td class="regular dur"> 
+                {% set a = job.categories%}
+                {%if a%}
+                {{a[0].id}}
+                {%else%}
+                None
+                {%endif%}
+            </td>
             <td class='{% if job.is_finished%}
             yes
             {% else%}
