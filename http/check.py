@@ -1,30 +1,28 @@
-from requests import post, delete
-#
-# # Пустой запрос
-#
-#
-# print(post('http://localhost:5000/api/jobs').json())
-#
-# # Недостаток данныхх
-# print(post('http://localhost:5000/api/jobs',
-#            json={'job': 'test1'}).json())
-#
-# # Рабочий запрос
-# print(post('http://localhost:5000/api/jobs',
-#            json={'id': 1,
-#                  'job': 'etst4',
-#                  'team_leader': 4,
-#                  'work_size': 45,
-#                  'is_finished': True,
-#                  'collaborators': '3,1'}).json())
-#
-# # Повторяющийся id
-# print(post('http://localhost:5000/api/jobs',
-#            json={'id': 1,
-#                  'job': 'etst3',
-#                  'team_leader': 1,
-#                  'work_size': 15,
-#                  'is_finished': False,
-#                  'collaborators': '4,6'}).json())
+from requests import post, delete, put, get
 
-print(delete('http://localhost:5000/api/jobs/4').json())
+
+# Пустой запрос
+
+print(put('http://localhost:5000/api/jobs/1').json())
+
+# Недостаток данныхх
+print(put('http://localhost:5000/api/jobs/1',
+          json={'job': 'test1'}).json())
+
+# Несуществующий id
+print(put('http://localhost:5000/api/jobs/4',
+          json={'id': 1,
+                'job': 'etst3',
+                'team_leader': 1,
+                'work_size': 15,
+                'is_finished': False,
+                'collaborators': '4,6'}).json())
+
+# Рабочий запрос
+print(put('http://localhost:5000/api/jobs/3', json={'job': 'deployment of residential modules 3 and 6',
+                                                    'team_leader': 2,
+                                                    'work_size': 5,
+                                                    'is_finished': False,
+                                                    'collaborators': '3'}).json())
+
+print(get('http://localhost:5000/api/jobs').json())
