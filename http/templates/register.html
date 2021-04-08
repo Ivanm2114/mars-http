@@ -94,7 +94,17 @@
     </div>
     {% endfor %}
     </p>
-
+    <p>
+        <div class='label'>{{ form.Hometown.label }}</div>
+        <br>
+        {{ form.Hometown(class="form-control") }}<br>
+        {% for error in form.Hometown.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+        </p>
+        
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {% if message %}
     <div class="alert alert-danger" role="alert">{{message}}</div>

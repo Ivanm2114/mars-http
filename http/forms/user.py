@@ -14,6 +14,7 @@ class RegisterForm(FlaskForm):
     Position = StringField('Position', validators=[DataRequired()])
     Speciality = StringField('Speciality', validators=[DataRequired()])
     Address = StringField('Address', validators=[DataRequired()])
+    Hometown = StringField("Hometown", validators=[DataRequired()])
     submit = SubmitField('Register')
 
 

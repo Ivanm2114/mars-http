@@ -18,6 +18,7 @@ def main():
     user1.speciality = 'research engeneer'
     user1.address = 'module 1'
     user1.email = "scott_chief@mars.org"
+    user1.hometown = 'New York'
 
     user2 = User()
     user2.surname = 'Elatskov'
@@ -27,6 +28,7 @@ def main():
     user2.speciality = 'engeneer'
     user2.address = 'module 69'
     user2.email = "dmela69@mars.org"
+    user2.hometown = 'Moscow'
 
     user3 = User()
     user3.surname = 'Bon Jovi'
@@ -36,6 +38,7 @@ def main():
     user3.speciality = 'entertainer'
     user3.address = 'module 4'
     user3.email = "musiconmars@mars.org"
+    user3.hometown = 'Los Angeles'
 
     db_sess.add(user1)
     db_sess.add(user2)

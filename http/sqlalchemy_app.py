@@ -1,10 +1,11 @@
 import datetime
-
+import requests
+import os
+import sys
 from flask import Flask, request, render_template, make_response, session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
-
 from data import db_session, jobs_api, users_api
 from data.jobs import Jobs
 from data.users import User
@@ -22,6 +23,19 @@ app.register_blueprint(jobs_api.blueprint)
 app.register_blueprint(users_api.blueprint)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+def get_request(geocoder_request):
+    response = requests.get(geocoder_request)
+    if response:
+        json_response = response.json()
+        toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+        toponym_coodrinates = toponym["Point"]["pos"]
+        return toponym_coodrinates
+    else:
+        print("Ошибка выполнения запроса:")
+        print(geocoder_request)
+        print("Http статус:", response.status_code, "(", response.reason, ")")
 
 
 @app.route('/')
@@ -51,6 +65,7 @@ def reqister():
             position=form.Position.data,
             speciality=form.Speciality.data,
             address=form.Address.data,
+            hometown=form.Hometown.data
 
         )
         user.set_password(form.Password.data)
@@ -228,6 +243,21 @@ def delete_dep(id):
 def deps():
     db_sess = db_session.create_session()
     return render_template('departments.html', deps=db_sess.query(Department).all())
+
+
+@app.route('/users_show/<int:user_id>')
+def show_city(user_id):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).get(user_id)
+    geocoder_request = f"http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={user.hometown}&format=json"
+    a = get_request(geocoder_request).split()
+    a = ','.join(a)
+    map_request = f"https://static-maps.yandex.ru/1.x/?ll={a}&size=600,450&z=13&l=sat"
+    response = requests.get(map_request)
+    map_file = f"static/data/{user.hometown}.png"
+    with open(map_file, "wb") as file:
+        file.write(response.content)
+    return render_template('answer_form.html', user=user)
 
 
 if __name__ == '__main__':
