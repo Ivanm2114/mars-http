@@ -4,6 +4,7 @@ import os
 import sys
 from flask import Flask, request, render_template, make_response, session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from requests import get
 from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 from data import db_session, jobs_api, users_api
@@ -247,17 +248,16 @@ def deps():
 
 @app.route('/users_show/<int:user_id>')
 def show_city(user_id):
-    db_sess = db_session.create_session()
-    user = db_sess.query(User).get(user_id)
-    geocoder_request = f"http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={user.hometown}&format=json"
+    user = get(f'http://localhost:5000/api/users/{user_id}').json()
+    geocoder_request = f"http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={user['user'][0]['hometown']}&format=json"
     a = get_request(geocoder_request).split()
     a = ','.join(a)
     map_request = f"https://static-maps.yandex.ru/1.x/?ll={a}&size=600,450&z=13&l=sat"
     response = requests.get(map_request)
-    map_file = f"static/data/{user.hometown}.png"
+    map_file = f"static/data/{user['user'][0]['hometown']}.png"
     with open(map_file, "wb") as file:
         file.write(response.content)
-    return render_template('answer_form.html', user=user)
+    return render_template('answer_form.html', user=user['user'][0])
 
 
 if __name__ == '__main__':

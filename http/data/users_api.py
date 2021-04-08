@@ -20,7 +20,7 @@ def get_users():
             'users':
                 [item.to_dict(only=['id', 'surname',
                                     'name', 'age', 'position',
-                                    'speciality', 'address', 'email', 'modified_date'])
+                                    'speciality', 'address', 'email', 'modified_date', 'hometown'])
                  for item in users]
         }
     )
@@ -38,7 +38,7 @@ def get_user(user_id):
                 'user':
                     [user.to_dict(only=['id', 'surname',
                                         'name', 'age', 'position',
-                                        'speciality', 'address', 'email', 'modified_date'])]
+                                        'speciality', 'address', 'email', 'modified_date', 'hometown'])]
             }
         )
     return jsonify({'error': 'Not found'})
@@ -51,7 +51,7 @@ def create_user():
     elif not all(key in request.json for key in
                  ['id', 'surname',
                   'name', 'age', 'position',
-                  'speciality', 'address', 'email']):
+                  'speciality', 'address', 'email', 'hometown']):
         return jsonify({'error': 'Bad request'})
     db_sess = db_session.create_session()
     if db_sess.query(User).filter(User.id == request.json['id']).first():
@@ -64,7 +64,8 @@ def create_user():
         position=request.json['position'],
         speciality=request.json['speciality'],
         address=request.json['address'],
-        email=request.json['email']
+        email=request.json['email'],
+        hometown=request.json['hometown']
     )
     db_sess.add(user)
     db_sess.commit()
@@ -91,7 +92,7 @@ def edit_user(user_id):
     elif not all(key in request.json for key in
                  ['surname',
                   'name', 'age', 'position',
-                  'speciality', 'address', 'email']):
+                  'speciality', 'address', 'email', 'hometown']):
         return jsonify({'error': 'Bad request'})
     if not user:
         return jsonify({'error': 'Not found'})
@@ -102,5 +103,6 @@ def edit_user(user_id):
     user.speciality = request.json['speciality']
     user.address = request.json['address']
     user.email = request.json['email']
+    user.hometown = request.json['hometown']
     db_sess.commit()
     return jsonify({'success': 'OK'})
