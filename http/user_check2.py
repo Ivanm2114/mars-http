@@ -24,7 +24,8 @@ print(put('http://localhost:5000/api/v2/users/4', json={'surname': 'Puhkov',
                                                         'position': 'Sergant',
                                                         'speciality': 'Front End Developer',
                                                         'address': 'module 3',
-                                                        'email': 'sromniy@mail.ru'
+                                                        'email': 'sromniy@mail.ru',
+                                                        'hometown': 'Saint-Petersburg'
                                                         }).json())
 
 print(get('http://localhost:5000/api/users/4').json())
