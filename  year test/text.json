@@ -1,0 +1,13 @@
+{
+  "France": [
+    {
+      "size": 10,
+      "fast": 2
+    }
+  ],
+  "Sweden": [
+    {
+      "color": "rose"
+    }
+  ]
+}
