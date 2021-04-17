@@ -85,7 +85,6 @@ def handle_dialog(req, res, word='слон'):
     ]:
         # Пользователь согласился, прощаемся.
         res['response']['text'] = f'{word.capitalize()}а можно найти на Яндекс.Маркете!'
-        res['response']['end_session'] = True
         if word != 'кролик':
             handle_dialog(req, res, 'кролик')
 
