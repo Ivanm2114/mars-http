@@ -88,6 +88,13 @@ def handle_dialog(req, res, word='слон'):
         if word != 'кролик':
             word = 'кролик'
             res['response']['text'] = f'Все говорят "{req["request"]["original_utterance"]}", а ты купи {word}а!'
+            sessionStorage[user_id] = {
+                'suggests': [
+                    "Не хочу.",
+                    "Не буду.",
+                    "Отстань!",
+                ]
+            }
             res['response']['buttons'] = get_suggests(user_id, word)
         else:
             res['response']['end_session'] = True
