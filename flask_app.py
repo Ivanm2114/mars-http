@@ -42,7 +42,8 @@ def main():
     }
     # Отправляем request.json и response в функцию handle_dialog. Она сформирует оставшиеся поля JSON, которые отвечают
     # непосредственно за ведение диалога
-    handle_dialog(request.json, response)
+    handle_dialog(request.json, response, 'слон')
+    handle_dialog(request.json, response, 'кролик')
 
     logging.info('Response: %r', request.json)
 
@@ -50,7 +51,7 @@ def main():
     return json.dumps(response)
 
 
-def handle_dialog(req, res):
+def handle_dialog(req, res, word):
     user_id = req['session']['user_id']
 
     if req['session']['new']:
@@ -66,7 +67,7 @@ def handle_dialog(req, res):
             ]
         }
         # Заполняем текст ответа
-        res['response']['text'] = 'Привет! Купи слона!'
+        res['response']['text'] = f'Привет! Купи {word}а!'
         # Получим подсказки
         res['response']['buttons'] = get_suggests(user_id)
         return
@@ -85,19 +86,19 @@ def handle_dialog(req, res):
         'я куплю'
     ]:
         # Пользователь согласился, прощаемся.
-        res['response']['text'] = 'Слона можно найти на Яндекс.Маркете!'
+        res['response']['text'] = f'{word}а можно найти на Яндекс.Маркете!'
         res['response']['end_session'] = True
         return
 
     # Если нет, то убеждаем его купить слона!
-    res['response']['text'] = 'Все говорят "%s", а ты купи слона!' % (
+    res['response']['text'] = f'Все говорят "%s", а ты купи {word}а!' % (
         req['request']['original_utterance']
     )
-    res['response']['buttons'] = get_suggests(user_id)
+    res['response']['buttons'] = get_suggests(user_id, word)
 
 
 # Функция возвращает две подсказки для ответа.
-def get_suggests(user_id):
+def get_suggests(user_id, word):
     session = sessionStorage[user_id]
 
     # Выбираем две первые подсказки из массива.
@@ -115,7 +116,7 @@ def get_suggests(user_id):
     if len(suggests) < 2:
         suggests.append({
             "title": "Ладно",
-            "url": "https://market.yandex.ru/search?text=слон",
+            "url": f"https://market.yandex.ru/search?text={word}",
             "hide": True
         })
 
