@@ -43,9 +43,10 @@ def main():
     # Отправляем request.json и response в функцию handle_dialog. Она сформирует оставшиеся поля JSON, которые отвечают
     # непосредственно за ведение диалога
     handle_dialog(request.json, response, 'слон')
-    handle_dialog(request.json, response, 'кролик')
 
     logging.info('Response: %r', request.json)
+
+    handle_dialog(request.json, response, 'слон')
 
     # Преобразовываем в JSON и возвращаем
     return json.dumps(response)
