@@ -71,6 +71,7 @@ def handle_dialog(req, res):
         res['response']['text'] = f'Привет! Купи {word}а!'
         # Получим подсказки
         res['response']['buttons'] = get_suggests(user_id, word)
+        return
 
     # Сюда дойдем только, если пользователь не новый, и разговор с Алисой уже был начат
     # Обрабатываем ответ пользователя.
