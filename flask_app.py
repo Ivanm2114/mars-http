@@ -46,10 +46,8 @@ def main():
 
     logging.info('Response: %r', request.json)
 
-    handle_dialog(request.json, response, 'слон')
-
     # Преобразовываем в JSON и возвращаем
-    return json.dumps(response)
+
 
 
 def handle_dialog(req, res, word):
