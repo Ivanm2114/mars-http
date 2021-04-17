@@ -23,6 +23,7 @@ logging.basicConfig(level=logging.INFO)
 # Такая запись говорит, что мы показали пользователю эти три подсказки. Когда он откажется купить слона,
 # то мы уберем одну подсказку. Как будто что-то меняется :)
 sessionStorage = {}
+word = 'слон'
 
 
 @app.route('/post', methods=['POST'])
@@ -50,7 +51,8 @@ def main():
     return json.dumps(response)
 
 
-def handle_dialog(req, res, word='слон'):
+def handle_dialog(req, res):
+    global word
     user_id = req['session']['user_id']
 
     if req['session']['new']:
@@ -86,16 +88,7 @@ def handle_dialog(req, res, word='слон'):
         # Пользователь согласился, прощаемся.
         res['response']['text'] = f'{word.capitalize()}а можно найти на Яндекс.Маркете!'
         if word != 'кролик':
-            word = 'кролик'
-            res['response']['text'] = f'Все говорят "{req["request"]["original_utterance"]}", а ты купи {word}а!'
-            sessionStorage[user_id] = {
-                'suggests': [
-                    "Не хочу.",
-                    "Не буду.",
-                    "Отстань!",
-                ]
-            }
-            res['response']['buttons'] = get_suggests(user_id, word)
+            change_word(user_id)
         else:
             res['response']['end_session'] = True
             return
@@ -128,6 +121,18 @@ def get_suggests(user_id, word):
         })
 
     return suggests
+
+
+def change_word(user_id):
+    global word
+    word = 'кролик'
+    sessionStorage[user_id] = {
+        'suggests': [
+            "Не хочу.",
+            "Не буду.",
+            "Отстань!",
+        ]
+    }
 
 
 if __name__ == '__main__':
