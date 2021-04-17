@@ -86,12 +86,11 @@ def handle_dialog(req, res, word='слон'):
         # Пользователь согласился, прощаемся.
         res['response']['text'] = f'{word.capitalize()}а можно найти на Яндекс.Маркете!'
         res['response']['end_session'] = True
-        handle_dialog(req, res, 'кролик')
+        if word != 'кролик':
+            handle_dialog(req, res, 'кролик')
 
     # Если нет, то убеждаем его купить слона!
-    res['response']['text'] = f'Все говорят "%s", а ты купи {word}а!' % (
-        req['request']['original_utterance']
-    )
+    res['response']['text'] = f'Все говорят "{req["request"]["original_utterance"]}", а ты купи {word}а!'
     res['response']['buttons'] = get_suggests(user_id)
 
 
