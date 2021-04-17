@@ -45,9 +45,6 @@ def main(word='слон'):
     handle_dialog(request.json, response, word)
 
     logging.info('Response: %r', request.json)
-
-    main('кролик')
-
     return json.dumps(response)
 
 
