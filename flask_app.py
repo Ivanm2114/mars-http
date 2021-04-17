@@ -28,7 +28,7 @@ sessionStorage = {}
 @app.route('/post', methods=['POST'])
 # Функция получает тело запроса и возвращает ответ.
 # Внутри функции доступен request.json - это JSON, который отправила нам Алиса в запросе POST
-def main(word='слон'):
+def main():
     logging.info('Request: %r', request.json)
 
     # Начинаем формировать ответ, согласно документации
@@ -42,13 +42,15 @@ def main(word='слон'):
     }
     # Отправляем request.json и response в функцию handle_dialog. Она сформирует оставшиеся поля JSON, которые отвечают
     # непосредственно за ведение диалога
-    handle_dialog(request.json, response, word)
+    handle_dialog(request.json, response)
 
     logging.info('Response: %r', request.json)
+
+    # Преобразовываем в JSON и возвращаем
     return json.dumps(response)
 
 
-def handle_dialog(req, res, word):
+def handle_dialog(req, res,word='слон'):
     user_id = req['session']['user_id']
 
     if req['session']['new']:
@@ -66,8 +68,7 @@ def handle_dialog(req, res, word):
         # Заполняем текст ответа
         res['response']['text'] = f'Привет! Купи {word}а!'
         # Получим подсказки
-        res['response']['buttons'] = get_suggests(user_id, word)
-        return
+        res['response']['buttons'] = get_suggests(user_id)
 
     # Сюда дойдем только, если пользователь не новый, и разговор с Алисой уже был начат
     # Обрабатываем ответ пользователя.
@@ -83,19 +84,19 @@ def handle_dialog(req, res, word):
         'я куплю'
     ]:
         # Пользователь согласился, прощаемся.
-        res['response']['text'] = f'{word}а можно найти на Яндекс.Маркете!'
+        res['response']['text'] = f'{word.capitalize()}а можно найти на Яндекс.Маркете!'
         res['response']['end_session'] = True
-        return
+        handle_dialog('кролик')
 
     # Если нет, то убеждаем его купить слона!
     res['response']['text'] = f'Все говорят "%s", а ты купи {word}а!' % (
         req['request']['original_utterance']
     )
-    res['response']['buttons'] = get_suggests(user_id, word)
+    res['response']['buttons'] = get_suggests(user_id)
 
 
 # Функция возвращает две подсказки для ответа.
-def get_suggests(user_id, word):
+def get_suggests(user_id):
     session = sessionStorage[user_id]
 
     # Выбираем две первые подсказки из массива.
@@ -113,7 +114,7 @@ def get_suggests(user_id, word):
     if len(suggests) < 2:
         suggests.append({
             "title": "Ладно",
-            "url": f"https://market.yandex.ru/search?text={word}",
+            "url": "https://market.yandex.ru/search?text=слон",
             "hide": True
         })
 
