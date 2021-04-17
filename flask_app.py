@@ -90,6 +90,10 @@ def handle_dialog(req, res):
         res['response']['text'] = f'{word.capitalize()}а можно найти на Яндекс.Маркете!'
         if word != 'кролик':
             change_word(user_id)
+            res['response']['text'] = f'Привет! Купи {word}а!'
+            # Получим подсказки
+            res['response']['buttons'] = get_suggests(user_id, word)
+            return
         else:
             res['response']['end_session'] = True
             return
