@@ -69,7 +69,7 @@ def handle_dialog(req, res, word):
         # Заполняем текст ответа
         res['response']['text'] = f'Привет! Купи {word}а!'
         # Получим подсказки
-        res['response']['buttons'] = get_suggests(user_id)
+        res['response']['buttons'] = get_suggests(user_id, word)
         return
 
     # Сюда дойдем только, если пользователь не новый, и разговор с Алисой уже был начат
