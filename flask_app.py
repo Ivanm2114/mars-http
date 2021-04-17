@@ -92,9 +92,9 @@ def handle_dialog(req, res):
         else:
             res['response']['end_session'] = True
             return
-
-    res['response']['text'] = f'Все говорят "{req["request"]["original_utterance"]}", а ты купи {word}а!'
-    res['response']['buttons'] = get_suggests(user_id, word)
+    else:
+        res['response']['text'] = f'Все говорят "{req["request"]["original_utterance"]}", а ты купи {word}а!'
+        res['response']['buttons'] = get_suggests(user_id, word)
 
 
 # Функция возвращает две подсказки для ответа.
