@@ -50,7 +50,7 @@ def main():
     return json.dumps(response)
 
 
-def handle_dialog(req, res,word='слон'):
+def handle_dialog(req, res, word='слон'):
     user_id = req['session']['user_id']
 
     if req['session']['new']:
@@ -86,7 +86,7 @@ def handle_dialog(req, res,word='слон'):
         # Пользователь согласился, прощаемся.
         res['response']['text'] = f'{word.capitalize()}а можно найти на Яндекс.Маркете!'
         res['response']['end_session'] = True
-        handle_dialog('кролик')
+        handle_dialog(req, res, 'кролик')
 
     # Если нет, то убеждаем его купить слона!
     res['response']['text'] = f'Все говорят "%s", а ты купи {word}а!' % (
