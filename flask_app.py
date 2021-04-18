@@ -28,6 +28,7 @@ sessionStorage = {}
 
 city = ''
 
+
 @app.route('/post', methods=['POST'])
 def main():
     logging.info(f'Request: {request.json!r}')
@@ -77,10 +78,21 @@ def handle_dialog(res, req):
             city = random.choice(list(cities.keys()))
             res['response']['buttons'] = [
                 {
-                    'title': city.title(),
+                    'title': el,
                     'hide': True
                 } for el in ['Да', 'Нет']
             ]
+    if req['request']["original_utterance"] == 'Да':
+        city = random.choice(list(cities.keys()))
+        if city in cities:
+            res['response']['card'] = {}
+            res['response']['card']['type'] = 'BigImage'
+            res['response']['card']['image_id'] = random.choice(cities[city])
+            res['response']['card']['title'] = 'Какой город?'
+    if req['request']["original_utterance"] == 'Нет':
+        res['response']['text'] = 'Ну и ладно'
+        res['response']['end_session'] = True
+        return
     else:
         if req['request']['nlu']['entities'][0]['value']['city'] == city:
             res['response']['text'] = 'Правильно'
