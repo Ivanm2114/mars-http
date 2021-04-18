@@ -81,7 +81,7 @@ def handle_dialog(res, req):
                 res['response']['card']['image_id'] = random.choice(cities[city])
                 res['response']['card']['title'] = 'Какой город?'
     else:
-        if req['request']['nlu']['entities']['value']['city'] == city:
+        if req['request']['nlu']['entities'][0]['value']['city'] == city:
             res['response']['text'] = 'Правильно'
             res['response']['end_session'] = True
             return
