@@ -75,11 +75,12 @@ def handle_dialog(res, req):
                           + first_name.title() \
                           + '. Я - Алиса. Угадаешь город?'
             city = random.choice(list(cities.keys()))
-            if city in cities:
-                res['response']['card'] = {}
-                res['response']['card']['type'] = 'BigImage'
-                res['response']['card']['image_id'] = random.choice(cities[city])
-                res['response']['card']['title'] = 'Какой город?'
+            res['response']['buttons'] = [
+                {
+                    'title': city.title(),
+                    'hide': True
+                } for el in ['Да', 'Нет']
+            ]
     else:
         if req['request']['nlu']['entities'][0]['value']['city'] == city:
             res['response']['text'] = 'Правильно'
