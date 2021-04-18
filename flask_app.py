@@ -83,6 +83,7 @@ def handle_dialog(res, req):
             ]
 
     elif req['request']["original_utterance"] == 'Да':
+        res['response']['text'] = 'Хорошо'
         city = random.choice(list(cities.keys()))
         if city in cities:
             res['response']['card'] = {}
