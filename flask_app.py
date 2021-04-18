@@ -75,7 +75,6 @@ def handle_dialog(res, req):
                 'text'] = 'Приятно познакомиться, ' \
                           + first_name.title() \
                           + '. Я - Алиса. Угадаешь город?'
-            city = random.choice(list(cities.keys()))
             res['response']['buttons'] = [
                 {
                     'title': el,
