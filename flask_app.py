@@ -26,6 +26,7 @@ cities = {
 # мы будем хранить его имя
 sessionStorage = {}
 
+city = ''
 
 @app.route('/post', methods=['POST'])
 def main():
@@ -43,6 +44,7 @@ def main():
 
 
 def handle_dialog(res, req):
+    global city
     user_id = req['session']['user_id']
 
     # если пользователь новый, то просим его представиться.
@@ -71,33 +73,20 @@ def handle_dialog(res, req):
             res['response'][
                 'text'] = 'Приятно познакомиться, ' \
                           + first_name.title() \
-                          + '. Я - Алиса. Какой город хочешь увидеть?'
-            # получаем варианты buttons из ключей нашего словаря cities
-            res['response']['buttons'] = [
-                {
-                    'title': city.title(),
-                    'hide': True
-                } for city in cities
-            ]
-    # если мы знакомы с пользователем и он нам что-то написал,
-    # то это говорит о том, что он уже говорит о городе,
-    # что хочет увидеть.
+                          + '. Я - Алиса. Угадаешь город?'
+            city = random.choice(cities)
+            if city in cities:
+                res['response']['card'] = {}
+                res['response']['card']['type'] = 'BigImage'
+                res['response']['card']['image_id'] = random.choice(cities[city])
     else:
-        # ищем город в сообщение от пользователя
-        city = get_city(req)
-        # если этот город среди известных нам,
-        # то показываем его (выбираем одну из двух картинок случайно)
-        if city in cities:
-            res['response']['card'] = {}
-            res['response']['card']['type'] = 'BigImage'
-            res['response']['card']['title'] = 'Этот город я знаю.'
-            res['response']['card']['image_id'] = random.choice(cities[city])
-            res['response']['text'] = 'Я угадал!'
-        # если не нашел, то отвечает пользователю
-        # 'Первый раз слышу об этом городе.'
+        if req['request']['nlu']['entities']['value']['city'] == city:
+            res['response']['text'] = 'Правильно'
+            res['response']['end_session'] = True
+            return
         else:
             res['response']['text'] = \
-                'Первый раз слышу об этом городе. Попробуй еще разок!'
+                'Неправильно. Попробуй еще разок!'
 
 
 def get_city(req):
