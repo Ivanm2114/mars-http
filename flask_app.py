@@ -5,6 +5,7 @@ import logging
 import json
 import random
 
+start = True
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
@@ -45,7 +46,7 @@ def main():
 
 
 def handle_dialog(res, req):
-    global city
+    global city, start
     user_id = req['session']['user_id']
 
     # если пользователь новый, то просим его представиться.
@@ -83,6 +84,7 @@ def handle_dialog(res, req):
             ]
 
     elif req['request']["original_utterance"] == 'Да':
+        start = False
         res['response']['text'] = 'Хорошо'
         city = random.choice(list(cities.keys()))
         if city in cities:
@@ -101,14 +103,18 @@ def handle_dialog(res, req):
         res['response']['end_session'] = True
         return
     elif req['request']['original_utterance'] == 'Помощь':
-        res['response']['text'] = 'Я показываю вам город, а вы должны его угадать'
+        res['response'][
+            'text'] = 'Я показываю вам город, а вы должны его угадать\n Сыграем?' if start else \
+            'Я показываю вам город, а вы должны его угадатьЯ показываю вам город, а вы должны его угадать'
         res['response']['buttons'] = [
             {
                 'title': el,
                 'hide': True
-            } for el in ['Да', 'Нет', 'Помощь']
+            } for el in (['Да', 'Нет'] if start else [])
         ]
+        start = False
     else:
+        start = False
         if req['request']['nlu']['entities'][0]['value']['city'] == city:
             res['response']['text'] = 'Правильно'
             res['response']['end_session'] = True
