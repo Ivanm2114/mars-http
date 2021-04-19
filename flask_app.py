@@ -79,7 +79,7 @@ def handle_dialog(res, req):
                 {
                     'title': el,
                     'hide': True
-                } for el in ['Да', 'Нет']
+                } for el in ['Да', 'Нет', 'Помощь']
             ]
 
     elif req['request']["original_utterance"] == 'Да':
@@ -94,6 +94,8 @@ def handle_dialog(res, req):
         res['response']['text'] = 'Ну и ладно'
         res['response']['end_session'] = True
         return
+    elif req['request']['original_utterance'] == 'Помощь':
+        res['response']['text'] = 'Я показываю вам город, а вы должны его угадать'
     else:
         if req['request']['nlu']['entities'][0]['value']['city'] == city:
             res['response']['text'] = 'Правильно'
