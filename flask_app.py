@@ -112,7 +112,6 @@ def handle_dialog(res, req):
                 'hide': True
             } for el in (['Да', 'Нет'] if start else [])
         ]
-        start = False
     else:
         start = False
         if req['request']['nlu']['entities'][0]['value']['city'] == city:
