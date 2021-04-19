@@ -105,7 +105,7 @@ def handle_dialog(res, req):
     elif req['request']['original_utterance'] == 'Помощь':
         res['response'][
             'text'] = 'Я показываю вам город, а вы должны его угадать\n Сыграем?' if start else \
-            'Я показываю вам город, а вы должны его угадатьЯ показываю вам город, а вы должны его угадать'
+            'Я показываю вам город, а вы должны его угадать'
         res['response']['buttons'] = [
             {
                 'title': el,
