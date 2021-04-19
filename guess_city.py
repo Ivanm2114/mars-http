@@ -113,7 +113,8 @@ def handle_dialog(res, req):
                 } for el in (['Да', 'Нет'])
             ]
         else:
-            'Я показываю вам город, а вы должны его угадать'
+            res['response'][
+                'text'] = 'Я показываю вам город, а вы должны его угадать'
     else:
         start = False
         if req['request']['nlu']['entities'][0]['value']['city'] == city:
