@@ -90,12 +90,24 @@ def handle_dialog(res, req):
             res['response']['card']['type'] = 'BigImage'
             res['response']['card']['image_id'] = random.choice(cities[city])
             res['response']['card']['title'] = 'Какой город?'
+            res['response']['buttons'] = [
+                {
+                    'title': el,
+                    'hide': True
+                } for el in ['Помощь']
+            ]
     elif req['request']["original_utterance"] == 'Нет':
         res['response']['text'] = 'Ну и ладно'
         res['response']['end_session'] = True
         return
     elif req['request']['original_utterance'] == 'Помощь':
-        res['response']['text'] = 'Я показываю вам город, а вы должны его угадать'
+        res['response']['text'] = 'Я показываю вам город, а вы должны его угадать\n Сыграем'
+        res['response']['buttons'] = [
+            {
+                'title': el,
+                'hide': True
+            } for el in ['Да', 'Нет', 'Помощь']
+        ]
     else:
         if req['request']['nlu']['entities'][0]['value']['city'] == city:
             res['response']['text'] = 'Правильно'
@@ -104,6 +116,12 @@ def handle_dialog(res, req):
         else:
             res['response']['text'] = \
                 'Неправильно. Попробуй еще разок!'
+            res['response']['buttons'] = [
+                {
+                    'title': el,
+                    'hide': True
+                } for el in ['Помощь']
+            ]
 
 
 def get_city(req):
