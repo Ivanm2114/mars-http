@@ -1,0 +1,26 @@
+[
+    {
+        "name": "unicorn",
+        "habitat": "Britain",
+        "self": "creature",
+        "advice": "being"
+    },
+    {
+        "name": "centaurus",
+        "habitat": "Wells",
+        "self": "being",
+        "advice": "creature"
+    },
+    {
+        "name": "werewolf",
+        "habitat": "France",
+        "self": "creature",
+        "advice": "being"
+    },
+    {
+        "name": "dwarf",
+        "habitat": "mountains",
+        "self": "creature",
+        "advice": "creature"
+    }
+]
